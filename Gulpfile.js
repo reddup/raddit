@@ -18,7 +18,7 @@ function scripts() {
     cache: {},
     packageCache: {},
     fullPaths: true
-  }).transform("babelify", {presets: ["es2015", "react"]});
+  }).transform("babelify", {presets: ["env", "react"]});
   var watcher = watchify(bundler);
 
   return watcher

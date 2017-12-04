@@ -1,5 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+
 
 class Grid extends React.Component{
   constructor (props) {
@@ -11,7 +13,7 @@ class Grid extends React.Component{
 
   render () {
     return (
-
+      <div></div>
     );
   }
 }

@@ -1,6 +1,6 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Grid = require('./components/grid');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Grid from './components/grid';
 
 class App extends React.Component {
   render() {
