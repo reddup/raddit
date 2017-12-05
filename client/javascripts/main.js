@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import Grid from './components/grid';
+import store from './store';
 
 class App extends React.Component {
   render() {
@@ -11,5 +13,7 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-  <App />, document.getElementById('content')
+  <Provider store={store}>
+    <App />
+  </Provider>, document.getElementById('content')
 );

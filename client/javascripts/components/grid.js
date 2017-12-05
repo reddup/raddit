@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 
+const mapStateToProps = store => ({
+  posts: store.posts.posts
+});
+
+const mapDispatchToProps = dispatch => ({
+
+});
+
+
 class Grid extends React.Component{
   constructor (props) {
     super(props);
@@ -18,4 +27,4 @@ class Grid extends React.Component{
   }
 }
 
-module.exports = Grid;
+export default connect(mapStateToProps, mapDispatchToProps)(Grid);
