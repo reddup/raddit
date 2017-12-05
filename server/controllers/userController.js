@@ -60,11 +60,11 @@ UserController.getOneUser = (req, res, next) => {
 UserController.updateOneUser = (req, res, next) => {
   if (!req.params.id) return res.status(400).send({ err: 'Invalid request' });
   
-  const updatedUser = new User(req.params.id, req.body.recent_post_id);
+  const updateUser = new User(req.params.id, req.body.recent_post_id);
 
   const query = {
     text: "UPDATE \"Users\" SET recent_post_id=$2 WHERE user_id=$1 RETURNING *",
-    values: Object.values(updatedUser)
+    values: Object.values(updateUser)
   };
 
   db.conn.one(query)
