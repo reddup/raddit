@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "antd": "^3.0.0",
     "browserify": "^14.4.0",
     "chai": "^2.3.0",
     "cross-fetch": "^1.1.1",

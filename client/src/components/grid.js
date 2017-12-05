@@ -24,7 +24,7 @@ class Grid extends React.Component{
 
   render () {
     return (
-      <h1>Grid</h1>
+      <h1>{this.props.showType}</h1>
     );
   }
 }

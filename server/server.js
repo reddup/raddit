@@ -8,7 +8,7 @@ var mcache = require('memory-cache');
 var path = require('path');
 
 app.use(function(req, res, next) {
-  if (req.url.match(/.js$|.html$|.css$|.woff|.woff2|.tff$/)) {
+  if (req.url.match(/.js$|.html$|.css$|.png$|.woff|.woff2|.tff$/)) {
       res.sendFile(path.join(__dirname + '/..' + req.url));
   }
   else {
