@@ -1,8 +1,8 @@
 class UserPost {
-  constructor(userId, postId, metadata) {
+  constructor(userId, postId, metadata = []) {
     this.user_id = userId;
     this.postId = postId;
-    this.metadata = Object.assign({}, metadata);
+    this.metadata = metadata;
   }
 }
 
