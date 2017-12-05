@@ -12,6 +12,10 @@ const port = 3000;
 const userRoutes = require('./routes/userRoutes.js');
 const postRoutes = require('./routes/postRoutes.js');
 
+/**
+ * create cache (not currently used)
+ * @param {*} duration - how long to persist the cache data 
+ */
 const cache = (duration) => {
   return (req, res, next) => {
     let key = '__express__' + req.originalUrl || req.url
@@ -29,27 +33,30 @@ const cache = (duration) => {
       next();
     }
   }
-}
+};
 
 /**
- * CORS middleware
+ * CORS middleware (api routes only)
+ */
+const allowCORS = (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.type('json');
+  next();
+};
+
+/**
+ * static files middleware
  */
 app.use(function(req, res, next) {
   if (req.url.match(/.js$|.html$|.css$|.woff|.woff2|.tff$/)) {
       res.sendFile(path.join(__dirname + '/..' + req.url));
   }
-  else {
-      if (req.url !== '/') {
-          res.header("Access-Control-Allow-Origin", "*");
-          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          res.type('json');
-      }
-      next();
-  }
+  next();
 });
 
 /**
- * body and cookie parsing middleware
+ * body and cookie parsing middleware 
  */
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -61,13 +68,17 @@ app.use(cookieParser());
  */
 
 // Users / user posts routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', allowCORS, userRoutes);
 // Posts routes
-app.use('/api/posts', postRoutes);
+app.use('/api/posts', allowCORS, postRoutes);
 
 // Static HTML routing
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/index.html'));
+});
+// Catch-all for react-router
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/index.html'));
 });
 
 app.listen(port, () => {
