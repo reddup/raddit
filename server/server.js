@@ -40,6 +40,12 @@ var cache = (duration) => {
   }
 }
 
+
+app.get('/test-data-please', (req, res) => {
+    res.type('json');
+    res.sendFile(path.join(__dirname + '/../testData.json'));
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../index.html'));
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import * as actions from '../actions/actions';
 
 
 const mapStateToProps = store => ({
@@ -8,12 +9,16 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  fetchPosts: () => dispatch(actions.fetchPosts()),
 });
 
 class Grid extends React.Component{
   constructor (props) {
     super(props);
+  }
+
+  componentWillMount() {
+    this.props.fetchPosts('123');
   }
 
   render () {

@@ -29,22 +29,3 @@ render(
     </Router>
   </Provider>, document.getElementById('content')
 );
-
-
-// class App extends React.Component {
-//   render() {
-//     return (
-//       <Grid />
-//     )
-//   }
-// }
-
-// ReactDOM.render(
-//   <App />, document.getElementById('content')
-// );
-
-// render(
-//   <BrowserRouter>
-//     <App />
-//   </BrowserRouter>
-// ), document.getElementById('content')
