@@ -18,7 +18,7 @@ class Login extends React.Component{
 
   render () {
     return (
-      <div>LOGIN</div>
+      <h1>raddit</h1>
     );
   }
 }

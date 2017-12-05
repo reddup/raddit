@@ -40,8 +40,8 @@ class Grid extends React.Component{
 
     return (
       <div>
+       <h1>{this.props.showType}</h1>
       {list}
-      <h1>Grid</h1>
       </div>
     );
   }
