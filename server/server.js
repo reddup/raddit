@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 
 const port = 3000;
 const userRoutes = require('./routes/userRoutes.js');
+const postRoutes = require('./routes/postRoutes.js');
 
 const cache = (duration) => {
   return (req, res, next) => {
@@ -61,6 +62,8 @@ app.use(cookieParser());
 
 // Users / user posts routes
 app.use('/api/users', userRoutes);
+// Posts routes
+app.use('/api/posts', postRoutes);
 
 // Static HTML routing
 app.get('/', (req, res) => {
