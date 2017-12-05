@@ -12,7 +12,6 @@ const mapDispatchToProps = dispatch => ({
   fetchPosts: () => dispatch(actions.fetchPosts()),
 });
 
-
 class Grid extends React.Component{
   constructor (props) {
     super(props);
@@ -23,8 +22,27 @@ class Grid extends React.Component{
   }
 
   render () {
+    const list = [];
+    for (let i = 0; i < this.props.posts.length; i++) {
+      let post = this.props.posts[i];
+      let preview = post.preview;
+      if (preview && preview.images && preview.images[0].source) preview = <img src={preview.images[0].source.url}/>;
+      else preview = '';
+      list.push(
+        <div key={post.id}>
+          <h1>{post.subreddit}</h1>
+          <h3>{post.title}</h3>
+          {preview}
+          <a target="_blank" href={'https://reddit.com' + post.permalink}>Go Link</a>
+        </div>
+      )
+    }
+
     return (
+      <div>
+      {list}
       <h1>Grid</h1>
+      </div>
     );
   }
 }
