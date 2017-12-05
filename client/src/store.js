@@ -11,8 +11,7 @@ const store = createStore(
   applyMiddleware(
     thunkMiddleware,
     loggerMiddleware
-  ),
-  composeWithDevTools()
+  )
 );
 
 export default store;

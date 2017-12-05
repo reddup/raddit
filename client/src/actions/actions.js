@@ -1,13 +1,14 @@
+import fetch from 'cross-fetch';
 import * as types from '../constants/actionTypes'
 
-function requestPosts(user_id) {
+export const requestPosts = (user_id) => {
   return {
     type: types.REQUEST_POSTS,
     user_id
   }
 }
 
-function receivePosts(subreddit, json) {
+export const receivePosts = (user_id, json) => {
   return {
     type: types.RECEIVE_POSTS,
     user_id,
@@ -16,11 +17,11 @@ function receivePosts(subreddit, json) {
   }
 }
 
-function fetchPosts(subreddit) {
+export const fetchPosts = (user_id) => {
   return dispatch => {
-    dispatch(requestPosts(subreddit))
-    return fetch(`https://www.reddit.com/r/${subreddit}.json`)
+    dispatch(requestPosts(user_id))
+    return fetch(`/test-data-please`)
       .then(response => response.json())
-      .then(json => dispatch(receivePosts(subreddit, json)))
+      .then(json => dispatch(receivePosts(user_id, json)))
   }
 }
