@@ -26,11 +26,7 @@ authController.verifyReddit = (req, res) => res.redirect(`https://www.reddit.com
 authController.getTokenReddit = (req, res, next) => {
   if (req.query.error || req.query.state !== 'abcd') return res.status(404).send('Error authorizing Reddit account');
 
-  const requestBody = {
-    "grant_type": "authorization_code",
-    "code": req.query.code,
-    "redirect_uri": process.env.REDDIT_REDIRECT_URI
-  };
+  const requestBody = `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${process.env.REDDIT_REDIRECT_URI}`;
   
   const tokenRequest = {
     method: 'POST',
@@ -39,8 +35,7 @@ authController.getTokenReddit = (req, res, next) => {
       'user': process.env.REDDIT_CLIENT_ID,
       'password': process.env.REDDIT_CLIENT_SECRET
     },
-    body: requestBody,
-    json: true
+    body: requestBody
   };
   rp(tokenRequest)
     .then(data => {

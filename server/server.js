@@ -53,7 +53,7 @@ app.use(function(req, res, next) {
   if (req.url.match(/.js$|.html$|.css$|.woff|.woff2|.tff$/)) {
       res.sendFile(path.join(__dirname + '/..' + req.url));
   }
-  next();
+  else next();
 });
 
 /**
@@ -79,7 +79,7 @@ app.use('/api/posts', allowCORS, postRoutes);
 
 // Static HTML routing
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/index.html'));
+    res.sendFile(path.join(__dirname + './../index.html'));
 });
 // TEST DATA ROUTING
 app.get('/test-data-please', (req, res) => {
@@ -88,7 +88,7 @@ app.get('/test-data-please', (req, res) => {
 });
 // Catch-all for react-router
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/index.html'));
+  res.sendFile(path.join(__dirname + './../index.html'));
 });
 
 app.listen(port, () => {
