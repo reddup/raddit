@@ -27,6 +27,7 @@ PostController.getAllPosts = (req, res, next) => {
 * @description - creates a new Post and saves to DB
 */
 PostController.addNewPost = (req, res, next) => {
+  console.log('adding new post', req.body);
   if (!req.body.postId || !req.body.title || !req.body.link || (req.body.metadata && !Array.isArray(req.body.metadata))) return res.status(400).send({ err: 'Invalid request' });
 
   const newPost = new Post(req.body.postId, req.body.title, req.body.link, req.body.metadata);
