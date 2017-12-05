@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const port = 3000;
+const authRoutes = require('./routes/authRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const postRoutes = require('./routes/postRoutes.js');
 
@@ -66,7 +67,11 @@ app.use(cookieParser());
 /**
  * ROUTING
  */
-
+// Auth routes
+app.use('/auth', (req, res, next) => {
+  console.log('hitting auth route');
+  next();
+}, allowCORS, authRoutes);
 // Users / user posts routes
 app.use('/api/users', allowCORS, userRoutes);
 // Posts routes
