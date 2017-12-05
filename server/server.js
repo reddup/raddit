@@ -12,11 +12,11 @@ app.use(function(req, res, next) {
       res.sendFile(path.join(__dirname + '/..' + req.url));
   }
   else {
-      if (req.url !== '/') {
-          res.header("Access-Control-Allow-Origin", "*");
-          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          res.type('json');
-      }
+      // if (req.url !== '/') {
+      //     res.header("Access-Control-Allow-Origin", "*");
+      //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      //     res.type('json');
+      // }
       next();
   }
 });
@@ -41,6 +41,10 @@ var cache = (duration) => {
 }
 
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../index.html'));
+});
+
+app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname + '/../index.html'));
 });
 

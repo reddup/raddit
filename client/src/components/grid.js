@@ -19,7 +19,7 @@ class Grid extends React.Component{
 
   render () {
     return (
-      <div></div>
+      <h1>Grid</h1>
     );
   }
 }

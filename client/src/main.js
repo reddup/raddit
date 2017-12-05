@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import {Router, Route, browserHistory} from 'react-router';
+
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+} from 'react-router-dom';
+
 import { Provider } from 'react-redux';
 import Grid from './components/grid';
+import Login from './components/login';
 import store from './store';
 
 render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={Grid} />
-      <Route path="/grid" component={Grid} />
+    <Router>
+      <div>
+        <Link to="/">raddit</Link>{' '}
+        <Link to={"/home"}>Home</Link>{' '}
+
+        <Switch>
+          <Route path="/home" component={Grid} />
+          <Route path="/" component={Login} />
+          <Route render={() => <h1>Page not found</h1>} />
+        </Switch>
+      </div>
     </Router>
   </Provider>, document.getElementById('content')
 );

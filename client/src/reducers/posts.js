@@ -7,14 +7,14 @@ const initialState = {
 };
 
 
-const posts = (state = initialState, action) => {
+const postsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case REQUEST_POSTS:
+    case types.REQUEST_POSTS:
       return Object.assign({}, state, {
         isFetching: true,
         didInvalidate: false
       })
-    case RECEIVE_POSTS:
+    case types.RECEIVE_POSTS:
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
@@ -25,3 +25,5 @@ const posts = (state = initialState, action) => {
       return state
   }
 }
+
+export default postsReducer
