@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev-server": "nodemon server/server.js",
     "start": "node_modules/.bin/gulp",
     "scrape": "server/scrapeScript.js",
     "test": "node_modules/.bin/mocha --timeout 10000 test/index.js"
@@ -12,8 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^3.0.0",
+    "body-parser": "^1.18.2",
     "browserify": "^14.4.0",
     "chai": "^2.3.0",
+    "cookie-parser": "^1.4.3",
     "cross-fetch": "^1.1.1",
     "dotenv": "^4.0.0",
     "express": "^4.12.4",
@@ -23,6 +26,7 @@
     "mocha": "^2.2.5",
     "nodemon": "^1.12.1",
     "path": "^0.12.7",
+    "pg-promise": "^7.3.2",
     "react": "^16.0.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
