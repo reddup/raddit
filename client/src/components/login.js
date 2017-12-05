@@ -11,7 +11,6 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-
 class Login extends React.Component{
   constructor (props) {
     super(props);
@@ -19,7 +18,7 @@ class Login extends React.Component{
 
   render () {
     return (
-      <div>Login</div>
+      <h1>raddit</h1>
     );
   }
 }
