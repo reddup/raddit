@@ -11,14 +11,14 @@ gulp.task('browserify', scripts)
 
 function scripts() {
   var bundler = browserify({
-    entries: ['./client/javascripts/main.js'],
+    entries: ['./client/src/main.js'],
     // transform: [reactify],
 
     debug: true,
     cache: {},
     packageCache: {},
     fullPaths: true
-  }).transform("babelify", {presets: ["es2015", "react"]});
+  }).transform("babelify", {presets: ["env", "react"]});
   var watcher = watchify(bundler);
 
   return watcher
@@ -30,7 +30,7 @@ function scripts() {
         console.log('Error with compiling components', err.message);
       })
       .pipe(source('bundle.js'))
-      .pipe(gulp.dest('./build/'));
+      .pipe(gulp.dest('./client/build/'));
       console.log('Updated!', (Date.now() - updateStart) + 'ms');
     })
     .bundle()
@@ -38,13 +38,13 @@ function scripts() {
       console.log('Error with compiling components', err.message);
     })
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./build/'));
+    .pipe(gulp.dest('./client/build/'));
 }
 
 function serve() {
   nodemon({
     script: 'server/server.js',
-    ignore: ['client/', 'build/']
+    ignore: ['client/']
   });
 }
 

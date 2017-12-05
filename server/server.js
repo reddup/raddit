@@ -76,6 +76,11 @@ app.use('/api/posts', allowCORS, postRoutes);
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/index.html'));
 });
+// TEST DATA ROUTING
+app.get('/test-data-please', (req, res) => {
+  res.type('json');
+  res.sendFile(path.join(__dirname + '/../testData.json'));
+});
 // Catch-all for react-router
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/index.html'));
