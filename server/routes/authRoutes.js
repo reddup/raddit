@@ -7,6 +7,6 @@ authRoutes.route('/login')
   .get(authController.verifyReddit);
 
 authRoutes.route('/reddit')
-  .get(authController.getTokenReddit);
+  .get(authController.getTokenReddit, authController.resolveReddit);
 
 module.exports = authRoutes;

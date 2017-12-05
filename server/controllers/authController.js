@@ -1,5 +1,3 @@
-// import { react } from '../../../../../../Library/Caches/typescript/2.6/node_modules/@types/babel-types';
-
 const rp = require('request-promise');
 
 const authController = {};
@@ -11,10 +9,6 @@ const authController = {};
  */
 // TO ADD: &state=RANDOM_STRING
 authController.verifyReddit = (req, res) => res.redirect(`https://www.reddit.com/api/v1/authorize?client_id=${process.env.REDDIT_CLIENT_ID}&response_type=code&state=abcd&redirect_uri=${process.env.REDDIT_REDIRECT_URI}&duration=permanent&scope=identity history`);
-
-// ================================= //
-// ================================= //
-// ================================= //
 
 /**
  * getTokenReddit - request access token for Reddit user
@@ -39,20 +33,13 @@ authController.getTokenReddit = (req, res, next) => {
   };
   rp(tokenRequest)
     .then(data => {
-      console.log('received user access token', data);
-      req.specialData = {
-        "access_token": data.access_token,
-        "refresh_token": data.refresh_token
-      };
+      req.specialData = data;
       next();
     })
     .catch(err => res.status(404).send({'msg':'Error requesting access token from reddit', err}));
 };
 
-authController.resolveReddit = (req, res) => {
-  console.log('auth successful, redirecting to home');
-  res.redirect('/home');
-};
+authController.resolveReddit = (req, res) => res.redirect('/upvoted');
 
 // authController.getUserGithub = (req, res, next) => {
 //   let token = jwt.decode(req.cookies.ssid);
