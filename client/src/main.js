@@ -19,11 +19,10 @@ render(
   <Provider store={store}>
     <Router>
       <Layout>
-
         <Menu
           mode="horizontal"
         >
-          <Menu theme="light" mode="inline" defaultSelectedKeys={['4']}>
+          <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
               <Link to="/">
                 <img src="./client/assets/images/raddit-logo.png" style={{ height: '35px', margin: '5px 0' }}/>
@@ -37,22 +36,22 @@ render(
             </Menu.Item>
           </Menu>
         </Menu>
-        <Layout style={{ height: '100vh' }}>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-            <Switch>
-              <Route path='/saved' render={(props) => (
-                <Grid {...props} showType='Saved' />
-              )}/>
-              <Route path='/upvoted' render={(props) => (
-                <Grid {...props} showType='Upvoted' />
-              )}/>
-              <Route path="/" component={Login} />
-              <Route render={() => <h1>Page not found</h1>} />
-            </Switch>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            raddit ©2017
-          </Footer>
+        <Layout className="body-container">
+          <div className="home-background"></div>
+          <div className="page-content">
+            <Content style={{ overflow: 'initial' }}>
+              <Switch>
+                <Route path='/saved' render={(props) => (
+                  <Grid {...props} showType='Saved' />
+                )}/>
+                <Route path='/upvoted' render={(props) => (
+                  <Grid {...props} showType='Upvoted' />
+                )}/>
+                <Route path="/" component={Login} />
+                <Route render={() => <h1>Page not found</h1>} />
+              </Switch>
+            </Content>
+          </div>
         </Layout>
       </Layout>
     </Router>

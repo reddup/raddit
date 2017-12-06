@@ -11,3 +11,98 @@ html, body {
 *:focus {
   outline: none !important;
 }
+
+.ant-menu {
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+}
+
+.ant-btn-lg {
+  padding: 10px 40px;
+  font-size: 30px;
+  font-weight: 600;
+  height: auto;
+}
+
+.body-container {
+  position: relative;
+  overflow: scroll;
+  height: 100vh;
+}
+
+.home-background {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  opacity: .2;
+  z-index: 0;
+  background-image: url('./../images/pattern.jpg');
+}
+
+.home-page {
+  text-align: center;
+  position: relative;
+  padding-top: 100px;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  padding-top: 100px;
+  min-height: calc(100vh - 45px);
+}
+.home-logo {
+  width: 350px;
+  display: block;
+  margin: 0 auto 100px auto;
+}
+
+.card-grid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.one-card {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 30px;
+}
+
+.one-card .ant-card-body {
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.one-card .ant-card-meta {
+  padding: 24px;
+}
+
+.one-card .ant-card-meta-title {
+  white-space: normal;
+}
+
+.one-card .ant-card-cover {
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.fake-card {
+  display: inline-block;
+  width: 400px;
+  opacity: 0;
+  height: 1px;
+}
+
+.hard-card-cover {
+  display: inline-block;
+  width: 100%;
+  background-color: #2D6370;
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+}
