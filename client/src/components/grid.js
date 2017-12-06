@@ -7,13 +7,17 @@ const { Meta } = Card;
 
 import * as actions from '../actions/actions';
 
+import { Input } from 'antd';
+
 
 const mapStateToProps = store => ({
-  posts: store.posts.posts
+  posts: store.posts.posts,
+  showPosts: store.posts.showPosts
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchPosts: () => dispatch(actions.fetchPosts()),
+  searchPosts: (e) => dispatch(actions.searchPosts(e.target.value.toLowerCase()))
 });
 
 class Grid extends React.Component{
@@ -27,8 +31,8 @@ class Grid extends React.Component{
 
   render () {
     const list = [];
-    for (let i = 0; i < this.props.posts.length; i++) {
-      let post = this.props.posts[i];
+    for (let i = 0; i < this.props.showPosts.length; i++) {
+      let post = this.props.showPosts[i];
       let preview = post.preview;
       if (preview && preview.images && preview.images[0].source) preview = preview.images[0].source.url;
       else preview = './client/assets/images/raddit-square.png';
@@ -56,6 +60,7 @@ class Grid extends React.Component{
     }
     return (
       <div>
+        <Input placeholder="Search Post" onKeyUp={this.props.searchPosts} />
         <h1>{this.props.showType}</h1>
         <div className="card-grid">
           {list}
