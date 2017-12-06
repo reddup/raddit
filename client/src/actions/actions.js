@@ -13,7 +13,15 @@ export const receivePosts = (user_id, json) => {
     type: types.RECEIVE_POSTS,
     user_id,
     posts: json.data.children.map(child => child.data),
+    showPosts: json.data.children.map(child => child.data),
     receivedAt: Date.now()
+  }
+}
+
+export const searchPosts = (value) => {
+  return {
+    type: types.SEARCH_POSTS,
+    value
   }
 }
 

@@ -50,7 +50,7 @@ html, body {
 .page-content {
   position: relative;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 70px;
   min-height: calc(100vh - 45px);
 }
 .home-logo {
@@ -89,6 +89,12 @@ html, body {
 .one-card .ant-card-cover {
   max-height: 400px;
   overflow: hidden;
+}
+
+.search-bar {
+  width: 400px;
+  max-width: 90%;
+  margin: 0 auto 25px auto;
 }
 
 .fake-card {

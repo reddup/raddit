@@ -3,7 +3,8 @@ import * as types from '../constants/actionTypes';
 const initialState = {
   isFetching: false,
   didInvalidate: false,
-  posts: []
+  posts: [],
+  showPosts: []
 };
 
 
@@ -19,7 +20,13 @@ const postsReducer = (state = initialState, action) => {
         isFetching: false,
         didInvalidate: false,
         posts: action.posts,
+        showPosts: action.posts,
         lastUpdated: action.receivedAt
+      })
+    case types.SEARCH_POSTS:
+      let results = state.posts.filter(el => el.title.toLowerCase().match(new RegExp(action.value)));
+      return Object.assign({}, state, {
+        showPosts: results
       })
     default:
       return state
