@@ -13,6 +13,8 @@ const authRoutes = require('./routes/authRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const postRoutes = require('./routes/postRoutes.js');
 
+const sessionController = require('./controllers/sessionController.js');
+
 /**
  * create cache (not currently used)
  * @param {*} duration - how long to persist the cache data
@@ -67,14 +69,11 @@ app.use(cookieParser());
  * ROUTING
  */
 // Auth routes
-app.use('/auth', (req, res, next) => {
-  console.log('hitting auth route');
-  next();
-}, allowCORS, authRoutes);
+app.use('/auth', allowCORS, authRoutes);
 // Users / user posts routes
-app.use('/api/users', allowCORS, userRoutes);
+app.use('/api/users', sessionController.isLoggedIn, allowCORS, userRoutes);
 // Posts routes
-app.use('/api/posts', allowCORS, postRoutes);
+app.use('/api/posts', sessionController.isLoggedIn, allowCORS, postRoutes);
 
 // Static HTML routing
 app.get('/', (req, res) => {
@@ -86,7 +85,7 @@ app.get('/test-data-please', (req, res) => {
   res.sendFile(path.join(__dirname + './../testData.json'));
 });
 // Catch-all for react-router
-app.get('/*', (req, res) => {
+app.get('/*', sessionController.isLoggedIn, (req, res) => {
   res.sendFile(path.join(__dirname + './../index.html'));
 });
 

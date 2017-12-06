@@ -33,7 +33,8 @@ authController.getTokenReddit = (req, res, next) => {
   };
   rp(tokenRequest)
     .then(data => {
-      req.specialData = data;
+      console.log('got reddit data', data);
+      req.specialData = JSON.parse(data);
       next();
     })
     .catch(err => res.status(404).send({'msg':'Error requesting access token from reddit', err}));
