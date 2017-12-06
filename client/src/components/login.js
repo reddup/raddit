@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-
+import { Button } from 'antd';
 
 const mapStateToProps = store => ({
 
@@ -18,7 +18,12 @@ class Login extends React.Component{
 
   render () {
     return (
-      <h1>raddit</h1>
+      <div className="home-page">
+        <img className="home-logo" src="./client/assets/images/raddit-logo.png" />
+        <a href="/auth/login">
+          <Button type="primary" size="large">Login</Button>
+        </a>
+      </div>
     );
   }
 }

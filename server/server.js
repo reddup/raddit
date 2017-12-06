@@ -49,7 +49,7 @@ const allowCORS = (req, res, next) => {
  * static files middleware
  */
 app.use(function(req, res, next) {
-  if (req.url.match(/.js$|.html$|.css$|.png$|.woff|.woff2|.tff$/)) {
+  if (req.url.match(/.js$|.html$|.css$|.png$|.jpg$|.woff|.woff2|.tff$/)) {
       res.sendFile(path.join(__dirname + '/..' + req.url));
   }
   else next();
