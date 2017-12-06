@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+
+import { Card, Col, Row } from 'antd';
+const { Meta } = Card;
+
 import * as actions from '../actions/actions';
 
 
@@ -26,22 +30,39 @@ class Grid extends React.Component{
     for (let i = 0; i < this.props.posts.length; i++) {
       let post = this.props.posts[i];
       let preview = post.preview;
-      if (preview && preview.images && preview.images[0].source) preview = <img src={preview.images[0].source.url}/>;
-      else preview = '';
+      if (preview && preview.images && preview.images[0].source) preview = preview.images[0].source.url;
+      else preview = './client/assets/images/raddit-square.png';
       list.push(
-        <div key={post.id}>
-          <h1>{post.subreddit}</h1>
-          <h3>{post.title}</h3>
-          {preview}
-          <a target="_blank" href={'https://reddit.com' + post.permalink}>Go Link</a>
-        </div>
+        <span key={post.id}>
+          <a target="_blank"
+            href={'https://reddit.com' + post.permalink}
+            className="one-card"
+          >
+            <Card
+              hoverable
+              style={{ width: 400 }}
+            >
+              <span className="hard-card-cover" style={{ backgroundImage: `url('${preview}')` }}>
+              </span>
+              <Meta
+                title={post.title}
+                description={post.subreddit}
+              />
+            </Card>
+          </a>
+        </span>
+
       )
     }
-
     return (
       <div>
         <h1>{this.props.showType}</h1>
-      {list}
+        <div className="card-grid">
+          {list}
+          <div class="one-card fake-card"></div>
+          <div class="one-card fake-card"></div>
+          <div class="one-card fake-card"></div>
+        </div>
       </div>
     );
   }
