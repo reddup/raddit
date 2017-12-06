@@ -59,9 +59,9 @@ class Grid extends React.Component{
         <h1>{this.props.showType}</h1>
         <div className="card-grid">
           {list}
-          <div class="one-card fake-card"></div>
-          <div class="one-card fake-card"></div>
-          <div class="one-card fake-card"></div>
+          <div className="one-card fake-card"></div>
+          <div className="one-card fake-card"></div>
+          <div className="one-card fake-card"></div>
         </div>
       </div>
     );

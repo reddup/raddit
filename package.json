@@ -9,6 +9,9 @@
     "scrape": "server/scrapeScript.js",
     "test": "node_modules/.bin/mocha --timeout 10000 test/index.js"
   },
+  "babel": {
+    "plugins": [["import", {"libraryName": "antd"}]]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -44,6 +47,7 @@
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
+    "babel-plugin-import": "^1.6.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
