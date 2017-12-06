@@ -10,7 +10,14 @@
     "test": "node_modules/.bin/mocha --timeout 10000 test/index.js"
   },
   "babel": {
-    "plugins": [["import", {"libraryName": "antd"}]]
+    "plugins": [
+      [
+        "import",
+        {
+          "libraryName": "antd"
+        }
+      ]
+    ]
   },
   "author": "",
   "license": "ISC",
