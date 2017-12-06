@@ -3,6 +3,8 @@ const db = require('../db');
 
 const PostController = {};
 
+
+
 /**
 * Get All Posts
 * @description - returns array of all table rows and columns in Posts table.

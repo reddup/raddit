@@ -48,6 +48,14 @@ const allowCORS = (req, res, next) => {
 };
 
 /**
+ * addSpecialData middleware
+ */
+const addSpecialData = (req, res, next) => {
+  if (!req.addSpecialData) req.addSpecialData = {};
+  next();
+};
+
+/**
  * static files middleware
  */
 app.use(function(req, res, next) {
@@ -69,11 +77,11 @@ app.use(cookieParser());
  * ROUTING
  */
 // Auth routes
-app.use('/auth', allowCORS, authRoutes);
+app.use('/auth', allowCORS, addSpecialData, authRoutes);
 // Users / user posts routes
-app.use('/api/users', sessionController.isLoggedIn, allowCORS, userRoutes);
+app.use('/api/users', allowCORS, addSpecialData, sessionController.isLoggedIn, userRoutes);
 // Posts routes
-app.use('/api/posts', sessionController.isLoggedIn, allowCORS, postRoutes);
+app.use('/api/posts', allowCORS, addSpecialData, sessionController.isLoggedIn, postRoutes);
 
 // Static HTML routing
 app.get('/', (req, res) => {
