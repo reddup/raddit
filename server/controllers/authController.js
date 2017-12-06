@@ -33,33 +33,30 @@ authController.getTokenReddit = (req, res, next) => {
   };
   rp(tokenRequest)
     .then(data => {
-      console.log('got reddit data', data);
       req.specialData = JSON.parse(data);
       next();
     })
     .catch(err => res.status(404).send({'msg':'Error requesting access token from reddit', err}));
 };
 
-authController.resolveReddit = (req, res) => res.redirect('/upvoted');
+authController.getRedditUser = (req, res, next) => {
+  const userRequest = {
+    method: 'GET',
+    uri: `https://oauth.reddit.com/api/v1/me`,
+    headers: {
+      'User-Agent': 'raddit/1.0 by vuetron',
+      'Authorization': `bearer ${req.specialData.access_token}`
+    }
+  };
 
-// authController.getUserGithub = (req, res, next) => {
-//   let token = jwt.decode(req.cookies.ssid);
-//   const ghOptions = {
-//     uri: `https://api.github.com/user`,
-//     headers: {
-//       'Authorization': `token ${token.id}`, 
-//       'User-Agent':'Codesmith-Unit11-Authentication'
-//     },
-//     json: true
-//   };
-//   rp(ghOptions)
-//     .then(data => {
-//       req.specialData = {
-//         user: data
-//       };
-//       next();
-//     })
-//     .catch(err => res.status(404).send({'msg':'Error requesting user data from github', err}));
-// };
+  rp(userRequest)
+    .then(data => JSON.parse(data))
+    .then(data => {
+      req.specialData.userId = data.id;
+      req.specialData.username = data.name;
+      next();
+    })
+    .catch(err => res.status(404).send({'msg':'Error requesting user data from reddit', err}));
+};
 
 module.exports = authController;
