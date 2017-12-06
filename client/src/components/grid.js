@@ -60,8 +60,9 @@ class Grid extends React.Component{
     }
     return (
       <div>
-        <Input placeholder="Search Post" onKeyUp={this.props.searchPosts} />
-        <h1>{this.props.showType}</h1>
+        <div className="search-bar">
+          <Input placeholder="Search posts" onKeyUp={this.props.searchPosts} />
+        </div>
         <div className="card-grid">
           {list}
           <div className="one-card fake-card"></div>
