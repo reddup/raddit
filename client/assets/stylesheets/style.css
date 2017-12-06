@@ -11,3 +11,51 @@ html, body {
 *:focus {
   outline: none !important;
 }
+
+.card-grid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.one-card {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 30px;
+}
+
+.one-card .ant-card-body {
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.one-card .ant-card-meta {
+  padding: 24px;
+}
+
+.one-card .ant-card-meta-title {
+  white-space: normal;
+}
+
+.one-card .ant-card-cover {
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.fake-card {
+  display: inline-block;
+  width: 400px;
+  opacity: 0;
+  height: 1px;
+}
+
+.hard-card-cover {
+  display: inline-block;
+  width: 100%;
+  background-color: #555;
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+}

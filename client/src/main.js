@@ -37,7 +37,7 @@ render(
             </Menu.Item>
           </Menu>
         </Menu>
-        <Layout style={{ height: '100vh' }}>
+        <Layout style={{ overflow: 'scroll', height: '100vh' }}>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <Switch>
               <Route path='/saved' render={(props) => (
