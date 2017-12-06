@@ -10,21 +10,20 @@ const UserController = {};
 * @description - creates a new User and saves to DB
 */
 UserController.addNewUser = (req, res, next) => {
-  if (!req.body.userId) return res.status(400).send({ err: 'Invalid request' });
+  if (!req.specialData.userId || !req.specialData.username) return res.status(400).send({ err: 'Invalid request' });
 
-  const newUser = new User(req.body.userId);
+  const newUser = new User(req.specialData.userId, req.specialData.username);
 
   const query = {
-    text: "INSERT INTO \"Users\"(user_id, recent_post_id) VALUES($1, $2) RETURNING user_id",
+    text: "INSERT INTO \"Users\"(user_id, username, recent_post_id) VALUES($1, $2, $3) RETURNING *",
     values: Object.values(newUser)
   };
 
   db.conn.one(query)
     .then(createdUser => {
-      res.status(200).send({
-        'msg': 'user successfully created',
-        'uid': createdUser.user_id
-      })
+      if (!req.specialData) req.specialData = {};
+      req.specialData.createdUser = createdUser;
+      next();
     })
     .catch(err => res.status(404).send(err));
 };
@@ -36,16 +35,16 @@ UserController.addNewUser = (req, res, next) => {
 *                returns 400 if user is not found.
 */
 UserController.getOneUser = (req, res, next) => {
-  if (!req.params.id) return res.status(400).send({ err: 'Invalid request' });
+  if (!req.specialData.userId) return res.status(400).send({ err: 'Invalid request' });
 
   const query = {
     text: "SELECT * FROM \"Users\" WHERE user_id=$1",
-    values: [req.params.id]
+    values: [req.specialData.userId]
   };
 
   db.conn.one(query)
-    .then(foundUser => res.status(200).send(foundUser))
-    .catch(err => res.status(400).send(err));
+    .then(foundUser => res.redirect('/upvoted'))
+    .catch(err => next());
 
 };
 
