@@ -11,7 +11,7 @@ UserPostsController.getAllUserPosts = (req, res, next) => {
   if (!req.params.uid) return res.status(400).send('Invalid request');
 
   const query = {
-    text: "SELECT u.user_id, p.post_id, p.title, p.link, p.metadata as post_metadata, up._id, up.metadata as user_post_metadata FROM \"UserPosts\" as up INNER JOIN \"Posts\" as p ON up.post_id=p.post_id INNER JOIN \"Users\" as u ON up.user_id=u.user_id WHERE up.user_id=$1;",
+    text: "SELECT u.user_id, p.post_id, p.title, p.permalink, p.subreddit, p.image, p.metadata as post_metadata, up._id, up.metadata as user_post_metadata FROM \"UserPosts\" as up INNER JOIN \"Posts\" as p ON up.post_id=p.post_id INNER JOIN \"Users\" as u ON up.user_id=u.user_id WHERE up.user_id=$1;",
     values: [req.params.uid]
   };
 
