@@ -49,6 +49,26 @@ UserController.getOneUser = (req, res, next) => {
 };
 
 /**
+* Find or Insert User
+* @requires id - required, varchar, unique
+* @description - returns table row for matching user id param.  
+*                returns 400 if user is not found.
+*/
+UserController.findOrInsertUser = (req, res, next) => {
+  if (!req.specialData.userId || !req.specialData.username) return res.status(400).send({ err: 'Invalid request' });
+
+  const query = {
+    text: "INSERT INTO \"Users\" (user_id, username) VALUES ($1, $2) ON CONFLICT (user_id) DO NOTHING;",
+    values: [req.specialData.userId, req.specialData.username]
+  };
+
+  db.conn.any(query)
+    .then(foundOrInsertedUser => next())
+    .catch(err => res.status(404).send(err));
+
+};
+
+/**
 * Update User
 * @param {id} - required, varchar, unique - should match a user ID in table
 * @argument - optional, varchar - equates to the most recent post id 
