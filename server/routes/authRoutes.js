@@ -10,7 +10,7 @@ authRoutes.route('/login')
   .get(authController.verifyReddit);
 
 authRoutes.route('/reddit')
-  .get(authController.getTokenReddit, cookieController.setAuthCookies, authController.getRedditUser, cookieController.setUserCookie, userController.findOrInsertUser, (req, res) => res.redirect('/upvoted'));
+  .get(authController.getTokenReddit, cookieController.setAuthCookies, authController.getRedditUser, cookieController.setUserCookie, userController.findOrInsertUser, (req, res) => res.redirect('/saved'));
 
 authRoutes.route('/saved')
   .get(sessionController.isLoggedIn, authController.getRedditUserSaved, (req, res) => res.redirect('/saved'));

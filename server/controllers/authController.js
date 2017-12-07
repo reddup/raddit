@@ -192,7 +192,7 @@ authController.getRedditUserSaved = (req, res, next) => {
     .then(response => JSON.parse(response))
     .then(response => {
       return response.data.children.map(item => {
-        let img = (item.data.preview && item.data.preview.images && item.data.preview.images[0].source) ? item.data.preview.images[0].source.url : null;
+        let img = (item.data.preview && item.data.preview.images && item.data.preview.images[0].source) ? item.data.preview.images[0].source.url.replace(/&amp;/g, '&') : null;
         return {
           post_id: item.data.id,
           title: item.data.title,

@@ -37,7 +37,7 @@ class Grid extends React.Component{
       if (post.image) preview = post.image.match(/redditmedia/) ? post.image : './client/assets/images/raddit-square.png';
       else preview = './client/assets/images/raddit-square.png';
       list.push(
-        <span key={post.id}>
+        <span key={post.id + '-' + i}>
           <a target="_blank"
             href={post.permalink}
             className="one-card"
