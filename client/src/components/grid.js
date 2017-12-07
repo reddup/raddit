@@ -34,7 +34,7 @@ class Grid extends React.Component{
     for (let i = 0; i < this.props.showPosts.length; i++) {
       let post = this.props.showPosts[i];
       let preview;
-      if (post.image) preview = post.image
+      if (post.image) preview = post.image.match(/redditmedia/) ? post.image : './client/assets/images/raddit-square.png';
       else preview = './client/assets/images/raddit-square.png';
       list.push(
         <span key={post.id}>
