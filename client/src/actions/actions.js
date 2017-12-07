@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import * as types from '../constants/actionTypes'
+import * as helpers from '../constants/helpers'
 
 export const requestPosts = (user_id) => {
   return {
@@ -12,8 +13,8 @@ export const receivePosts = (user_id, json) => {
   return {
     type: types.RECEIVE_POSTS,
     user_id,
-    posts: json.data.children.map(child => child.data),
-    showPosts: json.data.children.map(child => child.data),
+    posts: json,
+    showPosts: json,
     receivedAt: Date.now()
   }
 }
@@ -28,7 +29,7 @@ export const searchPosts = (value) => {
 export const fetchPosts = (user_id) => {
   return dispatch => {
     dispatch(requestPosts(user_id))
-    return fetch(`/test-data-please`)
+    return fetch(`/api/users/${helpers.readCookie('rid')}/posts`)
       .then(response => response.json())
       .then(json => dispatch(receivePosts(user_id, json)))
   }

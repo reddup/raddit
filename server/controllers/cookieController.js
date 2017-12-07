@@ -16,7 +16,7 @@ cookieController.setUserCookie = (req, res, next) => {
   let un = req.specialData.username;
   req.specialData.jwtUn = jwt.sign({un}, jwtsecret, {algorithm:'HS256', expiresIn: 60*60});
   res.cookie('run', req.specialData.jwtUn, {httpOnly:true});
-  res.cookie('rid', req.specialData.userId, {httpOnly:true});
+  res.cookie('rid', req.specialData.userId, {httpOnly:false});
   next();
 };
 

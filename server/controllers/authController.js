@@ -22,7 +22,7 @@ authController.getTokenReddit = (req, res, next) => {
   if (req.query.error || req.query.state !== 'abcd') return res.status(404).send('Error authorizing Reddit account');
 
   const requestBody = `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${process.env.REDDIT_REDIRECT_URI}`;
-  
+
   const tokenRequest = {
     method: 'POST',
     uri: `https://www.reddit.com/api/v1/access_token`,
@@ -118,7 +118,7 @@ const runGoogleTagging = (pid, img) => {
         text: "UPDATE \"Posts\" SET metadata=$2 WHERE post_id=$1",
         values: [pid, tags]
       };
-  
+
       db.conn.any(query)
         .then(done => console.log('done adding image tags'))
         .catch(err => console.log('error adding image tag', err));

@@ -33,13 +33,13 @@ class Grid extends React.Component{
     const list = [];
     for (let i = 0; i < this.props.showPosts.length; i++) {
       let post = this.props.showPosts[i];
-      let preview = post.preview;
-      if (preview && preview.images && preview.images[0].source) preview = preview.images[0].source.url;
+      let preview;
+      if (post.image) preview = post.image
       else preview = './client/assets/images/raddit-square.png';
       list.push(
         <span key={post.id}>
           <a target="_blank"
-            href={'https://reddit.com' + post.permalink}
+            href={post.permalink}
             className="one-card"
           >
             <Card

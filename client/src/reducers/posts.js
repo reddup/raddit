@@ -24,7 +24,10 @@ const postsReducer = (state = initialState, action) => {
         lastUpdated: action.receivedAt
       })
     case types.SEARCH_POSTS:
-      let results = state.posts.filter(el => el.title.toLowerCase().match(new RegExp(action.value)));
+      let results = state.posts.filter(el => {
+        let string = el.title + ' ' + el.metadata.toString() + ' ' + el.subreddit;
+        string.toLowerCase().match(new RegExp(action.value))
+      });
       return Object.assign({}, state, {
         showPosts: results
       })
