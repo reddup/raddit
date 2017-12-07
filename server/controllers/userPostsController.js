@@ -64,7 +64,7 @@ UserPostsController.getOneUserPost = (req, res, next) => {
 */
 UserPostsController.updateOneUserPost = (req, res, next) => {
   if (!req.params.uid || !req.params.pid) return res.status(400).send({ err: 'Invalid request' });
-  
+
   const updateUserPost = new UserPost(req.params.uid, req.params.pid, req.body.metadata);
 
   const query = {

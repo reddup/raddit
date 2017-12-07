@@ -31,7 +31,7 @@ UserController.addNewUser = (req, res, next) => {
 /**
 * Get User
 * @param {id} - required, varchar, unique
-* @description - returns table row for matching user id param.  
+* @description - returns table row for matching user id param.
 *                returns 400 if user is not found.
 */
 UserController.getOneUser = (req, res, next) => {
@@ -43,7 +43,7 @@ UserController.getOneUser = (req, res, next) => {
   };
 
   db.conn.one(query)
-    .then(foundUser => res.redirect('/upvoted'))
+    .then(foundUser => res.redirect('/saved'))
     .catch(err => next());
 
 };
@@ -51,7 +51,7 @@ UserController.getOneUser = (req, res, next) => {
 /**
 * Find or Insert User
 * @requires id - required, varchar, unique
-* @description - returns table row for matching user id param.  
+* @description - returns table row for matching user id param.
 *                returns 400 if user is not found.
 */
 UserController.findOrInsertUser = (req, res, next) => {
@@ -71,14 +71,14 @@ UserController.findOrInsertUser = (req, res, next) => {
 /**
 * Update User
 * @param {id} - required, varchar, unique - should match a user ID in table
-* @argument - optional, varchar - equates to the most recent post id 
+* @argument - optional, varchar - equates to the most recent post id
 *             associated with the user.  Used when getting post metadata.
 * @description - updates user row in Users table if matching user_id is found.
 *                returns updated user info.
 */
 UserController.updateOneUser = (req, res, next) => {
   if (!req.params.id) return res.status(400).send({ err: 'Invalid request' });
-  
+
   const updateUser = new User(req.params.id, req.body.recent_post_id);
 
   const query = {
