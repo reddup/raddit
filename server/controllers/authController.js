@@ -123,8 +123,41 @@ const runGoogleTagging = (pid, img) => {
         .then(done => console.log('done adding image tags'))
         .catch(err => console.log('error adding image tag', err));
     })
-    .catch(err => console.log('error', err));
+    .catch(err => console.log(err));
 };
+
+const getMetadata = (arr) => {
+  arr.forEach((el, i) => {
+    if (el.image) {
+      setTimeout(() => {
+        runGoogleTagging(el.post_id, el.image);
+      }, i * 5000);
+    }
+  });
+};
+
+const buildBatchQuery = (table_name, keys, arr) => {
+  /*
+  INSERT INTO films (code, title, did, date_prod, kind) VALUES
+      ('B6717', 'Tampopo', 110, '1985-02-10', 'Comedy'),
+      ('HG120', 'The Dinner Game', 140, DEFAULT, 'Comedy');
+  */
+  let values = []
+  arr.forEach(el => {
+    let value = `(`;
+    for (let i = 0; i < keys.length; i += 1) {
+      let key = keys[i];
+      if (el[key] === null || el[key] === undefined) value += `NULL`;
+      else if (typeof el[key] === 'number' || typeof el[key] === 'boolean') value += `${el[key]}`
+      else value += `'${el[key].replace(/\'/g,"''")}'`
+      if (i !== keys.length - 1) value += ','
+    }
+    value += `)`;
+    values.push(value);
+  });
+  let query = `INSERT INTO "${table_name}" (${keys.join(',')}) VALUES ${values.join(',')};`
+  return query;
+}
 
 const getUserPosts = (uid) => {
   const query = {
@@ -135,28 +168,13 @@ const getUserPosts = (uid) => {
   return db.conn.any(query);
 };
 
-const addUserPost = (postObj) => {
-  const query = {
-    text: "INSERT INTO \"UserPosts\"(user_id, post_id) VALUES($1, $2) RETURNING _id;",
-    values: [postObj.uid, postObj.pid]
-  };
-  return db.conn.one(query);
-};
-
-const findOrInsertPost = (postObj) => {
-  return new Promise((resolve, reject) => {
-    const query = {
-      text: "INSERT INTO \"Posts\" (post_id, title, permalink, subreddit, image) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (post_id) DO NOTHING RETURNING *;",
-      values: [postObj.post_id, postObj.title, postObj.permalink, postObj.subreddit, postObj.image]
-    };
-
-    db.conn.any(query)
-      .then(post => {
-        if (post && post[0] && post[0].image) runGoogleTagging(post[0].post_id, post[0].image);
-        resolve(postObj);
-      })
-      .catch(err => reject(err));
+const buildPostQuery = (postsArr) => {
+  let str = "SELECT post_id FROM \"Posts\" WHERE";
+  postsArr.forEach((p, i) => {
+    if (i > 0) str += ' OR';
+    str += ` post_id=\'${p.post_id}\'`;
   });
+  return str;
 };
 
 
@@ -185,54 +203,74 @@ authController.getRedditUserSaved = (req, res, next) => {
       });
     })
     .then(redditPostData => {
-      let proms = [];
-      redditPostData.forEach(item => {
-        proms.push(findOrInsertPost(item));
-      });
-      Promise.all(proms)
-        .then(completedPosts => {
-          req.specialData.savedPosts = completedPosts;
-          return getUserPosts(req.cookies.rid);
-        })
-        .then(allUserPosts => {
-          let postsToAdd;
-          if (!allUserPosts.length) {
-            postsToAdd = req.specialData.savedPosts.map(p => {
-              return {
-                uid: req.cookies.rid,
-                pid: p.post_id
-              };
-            });
-          }
-          else {
-            postsToAdd = {};
-            let savedPosts = req.specialData.savedPosts.slice(0);
-            for (let i = 0; i < savedPosts; i++) {
-              postsToAdd[req.cookies.rid + savedPosts[i].post_id] = {
-                uid: req.cookies.rid,
-                pid: savedPosts[i].post_id
-              };
-            }
-
-            for (let i = 0; i < allUserPosts; i++) {
-              if (postsToAdd[allUserPosts[i].user_id + allUserPosts[i].post_id]) delete postsToAdd[allUserPosts[i].user_id + allUserPosts[i].post_id];
-            }
-          }
-          if (Object.values(postsToAdd).length > 0) {
-            let addedPosts = [];
-            Object.values(postsToAdd).forEach(p2a => {
-              addedPosts.push(addUserPost(p2a));
-            });
-            Promise.all(addedPosts)
-              .then(userPostsAdded => next())
-              .catch(err => res.status(400).send(err));
-          } else {
-            next();
-          }
-        })
-        .catch(err => res.status(400).send(err));
+      req.specialData.redditPosts = redditPostData;
+      return db.conn.any(buildPostQuery(redditPostData))
     })
-    .catch(err => res.status(404).send({'msg':'Error requesting user saved posts from reddit', err}));
+    .then(foundPosts => {
+      let redditPostData = req.specialData.redditPosts.slice(0);
+      let postsToAdd;
+      if (!foundPosts[0]) postsToAdd = redditPostData;
+      else {
+        postsToAdd = {};
+        for (let i = 0; i < redditPostData.length; i++) {
+          postsToAdd[redditPostData[i].post_id] = redditPostData[i];
+        }
+        for (let i = 0; i < foundPosts.length; i++) {
+          if (postsToAdd[foundPosts[i].post_id]) delete postsToAdd[foundPosts[i].post_id];
+        }
+        postsToAdd = Object.values(postsToAdd);
+      }
+      return postsToAdd;
+    })
+    .then(postsToAdd => {
+      req.specialData.dbPosts = postsToAdd;
+      const query = buildBatchQuery('Posts', ['post_id', 'title', 'permalink', 'subreddit', 'image'], postsToAdd);
+      return db.conn.any(query);
+    })
+    .then(postsAdded => {
+      getMetadata(req.specialData.dbPosts);
+      return getUserPosts(req.cookies.rid)
+    })
+    .then(allUserPosts => {
+      let postsToAdd;
+      if (!allUserPosts.length) {
+        postsToAdd = req.specialData.redditPosts.map(p => {
+          return {
+            user_id: req.cookies.rid,
+            post_id: p.post_id
+          };
+        });
+      }
+      else {
+        postsToAdd = {};
+        let redditPostData = req.specialData.redditPosts.slice(0);
+        for (let i = 0; i < redditPostData; i++) {
+          postsToAdd[req.cookies.rid + redditPostData[i].post_id] = {
+            user_id: req.cookies.rid,
+            post_id: redditPostData[i].post_id
+          };
+        }
+
+        for (let i = 0; i < allUserPosts; i++) {
+          if (postsToAdd[allUserPosts[i].user_id + allUserPosts[i].post_id]) delete postsToAdd[allUserPosts[i].user_id + allUserPosts[i].post_id];
+        }
+      }
+      if (Object.values(postsToAdd).length > 0) {
+        const keys = ["user_id", "post_id"]
+        const query = {
+          text: buildBatchQuery("UserPosts", keys , Object.values(postsToAdd))
+        };
+
+        return db.conn.any(query)
+      } else {
+        return;
+      }
+    })
+    .then(next())
+    .catch(err => {
+      console.log('caught error', err);
+      res.status(404).send({'msg':'Error in chain of nonsense', err});
+    });
 };
 
 module.exports = authController;
